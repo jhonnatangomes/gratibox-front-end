@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { login, signUp } from '../services/api';
 import { Link } from 'react-router-dom';
+import UserContext from '../contexts/UserContext';
 
 export default function Login() {
     const location = useLocation();
@@ -12,6 +13,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const [wrongPassword, setWrongPassword] = useState(false);
+    const { setUser } = useContext(UserContext);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -40,7 +42,12 @@ export default function Login() {
             const body = { email, password };
             const promise = login(body);
             promise
-                .then(() => {
+                .then((res) => {
+                    setUser(res.data);
+                    localStorage.setItem(
+                        'gratibox-user',
+                        JSON.stringify(res.data)
+                    );
                     navigate('/');
                 })
                 .catch((err) => {
