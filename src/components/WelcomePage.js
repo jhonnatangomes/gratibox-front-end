@@ -70,13 +70,14 @@ const ButtonsContainer = styled.div`
     width: 100%;
     background-color: #4d65a8;
     height: calc(100vh - 528px);
+    display: flex;
+    flex-direction: column;
 
     button {
         color: white;
         font-weight: 700;
         font-size: 18px;
         line-height: 21.09px;
-        border: none;
     }
 
     a:first-child button {

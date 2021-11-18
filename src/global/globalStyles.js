@@ -60,6 +60,7 @@ a {
 }
 button {
 	font-family: 'Roboto', sans-serif;
+	border: none;
 }
 `;
 
