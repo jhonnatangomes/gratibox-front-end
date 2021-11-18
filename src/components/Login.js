@@ -1,11 +1,36 @@
 import styled from 'styled-components';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { useState } from 'react';
+import { signUp } from '../services/api';
 
 export default function Login() {
     const location = useLocation();
+    const navigate = useNavigate();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [wrongPassword, setWrongPassword] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();
+        setWrongPassword(false);
+        const body = { name, email, password, repeatPassword };
+        const promise = signUp(body);
+        promise
+            .then(() => {
+                alert('Usuário cadastrado com sucesso');
+                navigate('/login');
+            })
+            .catch((err) => {
+                if (err.response.data.includes('repeatPassword')) {
+                    alert('Digite senhas iguais');
+                    setWrongPassword(true);
+                }
+                if (err.response.status === 409) {
+                    alert('Email já cadastrado. Por favor digite outro email');
+                }
+            });
     }
 
     return (
@@ -15,23 +40,44 @@ export default function Login() {
             </Title>
             <Form onSubmit={handleSubmit}>
                 {location.pathname === '/cadastro' ? (
-                    <input placeholder="Nome" required></input>
+                    <Input
+                        placeholder="Nome"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
                 ) : (
                     ''
                 )}
-                <input placeholder="Email" required type="email"></input>
-                <input placeholder="Senha" required type="password"></input>
+                <Input
+                    placeholder="Email"
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                    placeholder="Senha"
+                    required
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    $wrongPassword={wrongPassword}
+                />
                 {location.pathname === '/cadastro' ? (
-                    <input
+                    <Input
                         placeholder="Confirmar senha"
                         required
                         type="password"
-                    ></input>
+                        value={repeatPassword}
+                        onChange={(e) => setRepeatPassword(e.target.value)}
+                        $wrongPassword={wrongPassword}
+                    />
                 ) : (
                     ''
                 )}
                 {location.pathname === '/cadastro' ? (
-                    <MainButton>Cadastrar</MainButton>
+                    <MainButton path={location.pathname}>Cadastrar</MainButton>
                 ) : (
                     <>
                         <MainButton>Login</MainButton>
@@ -66,18 +112,19 @@ const Form = styled.form`
     input:not(:nth-child(4)) {
         margin-bottom: 8px;
     }
+`;
 
-    input {
-        padding: 17px 0px 17px 17px;
-        width: 100%;
-        height: 64px;
-        border-radius: 10px;
-        outline: none;
-        border: none;
-        font-size: 24px;
-        line-height: 28.13px;
-        font-weight: 500;
-    }
+const Input = styled.input`
+    padding: 17px 0px 17px 17px;
+    width: 100%;
+    height: 64px;
+    border-radius: 10px;
+    outline: none;
+    border: ${({ $wrongPassword }) =>
+        $wrongPassword ? '1px solid red' : 'none'};
+    font-size: 24px;
+    line-height: 28.13px;
+    font-weight: 500;
 `;
 
 const MainButton = styled.button`
