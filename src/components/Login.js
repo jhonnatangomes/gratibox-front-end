@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import { login, signUp } from '../services/api';
 import { Link } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
+import { Ellipsis } from 'react-spinners-css';
 
 export default function Login() {
     const location = useLocation();
@@ -14,9 +15,11 @@ export default function Login() {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [wrongPassword, setWrongPassword] = useState(false);
     const { setUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
         setWrongPassword(false);
         if (location.pathname === '/cadastro') {
             const body = { name, email, password, repeatPassword };
@@ -24,6 +27,7 @@ export default function Login() {
             promise
                 .then(() => {
                     alert('Usuário cadastrado com sucesso');
+                    setLoading(false);
                     navigate('/login');
                 })
                 .catch((err) => {
@@ -36,6 +40,7 @@ export default function Login() {
                             'Email já cadastrado. Por favor digite outro email'
                         );
                     }
+                    setLoading(false);
                 });
         }
         if (location.pathname === '/login') {
@@ -48,12 +53,14 @@ export default function Login() {
                         'gratibox-user',
                         JSON.stringify(res.data)
                     );
+                    setLoading(false);
                     navigate('/');
                 })
                 .catch((err) => {
                     if (err.response.status === 401) {
                         alert('Email e/ou senha errados');
                     }
+                    setLoading(false);
                 });
         }
     }
@@ -70,6 +77,7 @@ export default function Login() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        disabled={loading}
                     />
                 ) : (
                     ''
@@ -80,6 +88,7 @@ export default function Login() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
                 />
                 <Input
                     placeholder="Senha"
@@ -88,6 +97,7 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     $wrongPassword={wrongPassword}
+                    disabled={loading}
                 />
                 {location.pathname === '/cadastro' ? (
                     <Input
@@ -97,22 +107,29 @@ export default function Login() {
                         value={repeatPassword}
                         onChange={(e) => setRepeatPassword(e.target.value)}
                         $wrongPassword={wrongPassword}
+                        disabled={loading}
                     />
                 ) : (
                     ''
                 )}
-                {location.pathname === '/cadastro' ? (
-                    <MainButton path={location.pathname}>Cadastrar</MainButton>
-                ) : (
-                    <>
-                        <MainButton>Login</MainButton>
-                        <Link to="/cadastro">
-                            <SecondaryButton>
-                                Ainda não sou grato
-                            </SecondaryButton>
-                        </Link>
-                    </>
-                )}
+                <ButtonsContainer>
+                    {location.pathname === '/cadastro' ? (
+                        <MainButton path={location.pathname} disabled={loading}>
+                            {loading ? <Ellipsis color="white" /> : 'Cadastrar'}
+                        </MainButton>
+                    ) : (
+                        <>
+                            <MainButton disabled={loading}>
+                                {loading ? <Ellipsis color="white" /> : 'Login'}
+                            </MainButton>
+                            <Link to="/cadastro">
+                                <SecondaryButton disabled={loading}>
+                                    Ainda não sou grato
+                                </SecondaryButton>
+                            </Link>
+                        </>
+                    )}
+                </ButtonsContainer>
             </Form>
         </PageContainer>
     );
@@ -156,6 +173,13 @@ const Input = styled.input`
     font-weight: 500;
 `;
 
+const ButtonsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
 const MainButton = styled.button`
     width: 237px;
     height: 56px;
@@ -166,6 +190,9 @@ const MainButton = styled.button`
     font-weight: 700;
     line-height: 42.19px;
     margin-top: ${({ path }) => (path === '/cadastro' ? '62px' : '144px')};
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const SecondaryButton = styled.button`
