@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import image from '../assets/image05.jpg';
+import { Link } from 'react-router-dom';
 
 export default function WelcomePage() {
     return (
@@ -15,8 +16,12 @@ export default function WelcomePage() {
                 <img src={image} alt="Pessoa meditando com camisa amarela" />
             </ImgContainer>
             <ButtonsContainer>
-                <button>Quero começar</button>
-                <button>Já sou grato</button>
+                <Link to="/cadastro">
+                    <button>Quero começar</button>
+                </Link>
+                <Link to="/login">
+                    <button>Já sou grato</button>
+                </Link>
             </ButtonsContainer>
         </PageContainer>
     );
@@ -74,7 +79,7 @@ const ButtonsContainer = styled.div`
         border: none;
     }
 
-    button:first-child {
+    a:first-child button {
         width: 202px;
         height: 45px;
         background-color: #8c97ea;
@@ -82,7 +87,7 @@ const ButtonsContainer = styled.div`
         margin-bottom: 17px;
     }
 
-    button:last-child {
+    a:last-child button {
         width: 180px;
         height: 28px;
         background-color: inherit;

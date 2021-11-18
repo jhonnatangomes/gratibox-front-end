@@ -56,7 +56,7 @@ table {
 }
 a {
     text-decoration: none;
-    color:inherit;
+	color: inherit;
 }
 button {
 	font-family: 'Roboto', sans-serif;
