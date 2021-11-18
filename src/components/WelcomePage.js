@@ -69,9 +69,13 @@ const ImgContainer = styled.div`
 const ButtonsContainer = styled.div`
     width: 100%;
     background-color: #4d65a8;
-    height: calc(100vh - 528px);
+    height: calc(100vh - 506px);
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 375px) {
+        height: calc(100vh - 528px);
+    }
 
     button {
         color: white;
