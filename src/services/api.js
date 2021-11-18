@@ -5,4 +5,8 @@ function signUp(body) {
     return axios.post(`${baseUrl}/sign-up`, body);
 }
 
-export { signUp };
+function login(body) {
+    return axios.post(`${baseUrl}/login`, body);
+}
+
+export { signUp, login };

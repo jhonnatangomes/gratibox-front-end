@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router';
 import { useState } from 'react';
-import { signUp } from '../services/api';
+import { login, signUp } from '../services/api';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
     const location = useLocation();
@@ -15,22 +16,39 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         setWrongPassword(false);
-        const body = { name, email, password, repeatPassword };
-        const promise = signUp(body);
-        promise
-            .then(() => {
-                alert('Usuário cadastrado com sucesso');
-                navigate('/login');
-            })
-            .catch((err) => {
-                if (err.response.data.includes('repeatPassword')) {
-                    alert('Digite senhas iguais');
-                    setWrongPassword(true);
-                }
-                if (err.response.status === 409) {
-                    alert('Email já cadastrado. Por favor digite outro email');
-                }
-            });
+        if (location.pathname === '/cadastro') {
+            const body = { name, email, password, repeatPassword };
+            const promise = signUp(body);
+            promise
+                .then(() => {
+                    alert('Usuário cadastrado com sucesso');
+                    navigate('/login');
+                })
+                .catch((err) => {
+                    if (err.response.data.includes('repeatPassword')) {
+                        alert('Digite senhas iguais');
+                        setWrongPassword(true);
+                    }
+                    if (err.response.status === 409) {
+                        alert(
+                            'Email já cadastrado. Por favor digite outro email'
+                        );
+                    }
+                });
+        }
+        if (location.pathname === '/login') {
+            const body = { email, password };
+            const promise = login(body);
+            promise
+                .then(() => {
+                    navigate('/');
+                })
+                .catch((err) => {
+                    if (err.response.status === 401) {
+                        alert('Email e/ou senha errados');
+                    }
+                });
+        }
     }
 
     return (
@@ -81,7 +99,11 @@ export default function Login() {
                 ) : (
                     <>
                         <MainButton>Login</MainButton>
-                        <SecondaryButton>Ainda não sou grato</SecondaryButton>
+                        <Link to="/cadastro">
+                            <SecondaryButton>
+                                Ainda não sou grato
+                            </SecondaryButton>
+                        </Link>
                     </>
                 )}
             </Form>
