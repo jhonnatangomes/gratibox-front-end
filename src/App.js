@@ -4,6 +4,8 @@ import WelcomePage from './components/WelcomePage';
 import Login from './components/Login';
 import UserContext from './contexts/UserContext';
 import { useState, useEffect } from 'react';
+import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
+import Plans from './components/protectedRoutes/plans/Plans';
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -23,6 +25,10 @@ export default function App() {
                     <Route path="/" element={<WelcomePage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/cadastro" element={<Login />} />
+                    <Route
+                        path="/planos"
+                        element={<ProtectedRoute component={<Plans />} />}
+                    />
                 </Routes>
             </UserContext.Provider>
         </BrowserRouter>

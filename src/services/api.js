@@ -9,4 +9,16 @@ function login(body) {
     return axios.post(`${baseUrl}/login`, body);
 }
 
-export { signUp, login };
+function headersConfig(token) {
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+}
+
+function tokenAuth(token) {
+    return axios.post(`${baseUrl}/token`, {}, headersConfig(token));
+}
+
+export { signUp, login, tokenAuth };
