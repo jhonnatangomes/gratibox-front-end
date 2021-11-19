@@ -2,10 +2,8 @@ import { useEffect, useState, useContext } from 'react';
 import { tokenAuth } from '../../services/api';
 import UserContext from '../../contexts/UserContext';
 import { useNavigate } from 'react-router';
-import { Route } from 'react-router-dom';
 
-export default function ProtectedRoute({ component: Component }) {
-    console.log('came here');
+export default function ProtectedRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
@@ -18,14 +16,12 @@ export default function ProtectedRoute({ component: Component }) {
                 .catch(() => {
                     alert('Você não está logado');
                     navigate('/login');
-                    return null;
                 });
         } else {
             navigate('/login');
-            return null;
         }
     }, []);
 
     if (!isAuthenticated) return null;
-    return <Route element={<Component />} />;
+    return children;
 }

@@ -6,6 +6,7 @@ import UserContext from './contexts/UserContext';
 import { useState, useEffect } from 'react';
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
 import Plans from './components/protectedRoutes/plans/Plans';
+import SubscribePlan from './components/protectedRoutes/subscribePlan/SubscribePlan';
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -27,7 +28,19 @@ export default function App() {
                     <Route path="/cadastro" element={<Login />} />
                     <Route
                         path="/planos"
-                        element={<ProtectedRoute component={<Plans />} />}
+                        element={
+                            <ProtectedRoute>
+                                <Plans user={user} />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/assinar-plano"
+                        element={
+                            <ProtectedRoute>
+                                <SubscribePlan user={user} />
+                            </ProtectedRoute>
+                        }
                     />
                 </Routes>
             </UserContext.Provider>
