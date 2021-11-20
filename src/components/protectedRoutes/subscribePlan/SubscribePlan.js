@@ -7,17 +7,24 @@ import { useState } from 'react';
 export default function SubscribePlan({ user }) {
     const { state } = useLocation();
     const [renderAdress, setRenderAdress] = useState(false);
-    const [selectedPlanInfo, setSelectedPlanInfo] = useState({
+    const [selectedInfo, setSelectedInfo] = useState({
         Plano: '',
         Entrega: '',
         Produtos: '',
+        Endereço: {
+            'Nome completo': '',
+            'Endereço de entrega': '',
+            CEP: '',
+            Cidade: '',
+            Estado: '',
+        },
     });
 
     function handleClick() {
         if (
-            selectedPlanInfo['Plano'] &&
-            selectedPlanInfo['Entrega'] &&
-            selectedPlanInfo['Produtos']
+            selectedInfo['Plano'] &&
+            selectedInfo['Entrega'] &&
+            selectedInfo['Produtos']
         ) {
             setRenderAdress(true);
         }
@@ -35,8 +42,8 @@ export default function SubscribePlan({ user }) {
                     alt="Pessoa meditando com camisa amarela em fundo branco"
                 />
                 <DeliveryInfo
-                    selectedPlanInfo={selectedPlanInfo}
-                    setSelectedPlanInfo={setSelectedPlanInfo}
+                    selectedInfo={selectedInfo}
+                    setSelectedInfo={setSelectedInfo}
                     renderAdress={renderAdress}
                 />
             </FormContainer>

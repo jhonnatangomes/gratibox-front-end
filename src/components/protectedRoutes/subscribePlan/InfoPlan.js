@@ -2,16 +2,18 @@ import styled from 'styled-components';
 import { HiArrowDown } from 'react-icons/hi';
 import { useState } from 'react';
 
-export default function InfoPlan({ name, selectedInfo, setSelectedInfo }) {
+export default function InfoPlan({
+    name,
+    choices,
+    setChoices,
+    selectedInfo,
+    setSelectedInfo,
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState([false, false, false]);
-    const info = {
-        Plano: ['Semanal', 'Mensal'],
-        Entrega: {
-            Semanal: ['Segunda', 'Quarta', 'Sexta'],
-            Mensal: ['Dia 01', 'Dia 10', 'Dia 20'],
-        },
-        Produtos: ['Chás', 'Incensos', 'Produtos Orgânicos'],
+    const deliveries = {
+        Semanal: ['Segunda', 'Quarta', 'Sexta'],
+        Mensal: ['Dia 01', 'Dia 10', 'Dia 20'],
     };
 
     function handleClick() {
@@ -26,14 +28,13 @@ export default function InfoPlan({ name, selectedInfo, setSelectedInfo }) {
             newSelected[i] = false;
         } else {
             newSelected = [false, false, false];
-            if (name !== 'Entrega') {
-                setSelectedInfo({ ...selectedInfo, [name]: info[name][i] });
-            } else {
-                setSelectedInfo({
-                    ...selectedInfo,
-                    [name]: info[name][selectedInfo['Plano']][i],
+            if (name === 'Plano') {
+                setChoices({
+                    ...choices,
+                    Entrega: deliveries[choices[name][i]],
                 });
             }
+            setSelectedInfo({ ...selectedInfo, [name]: choices[name][i] });
             newSelected[i] = true;
         }
 
@@ -48,29 +49,15 @@ export default function InfoPlan({ name, selectedInfo, setSelectedInfo }) {
             </InfoTitle>
             {isOpen ? (
                 <Choices>
-                    {name !== 'Entrega'
-                        ? info[name].map((choice, i) => (
-                              <Choice key={i}>
-                                  <WhiteBox
-                                      $selected={selected[i]}
-                                      onClick={(e) => checkBox(e, i)}
-                                  />
-                                  <span>{choice}</span>
-                              </Choice>
-                          ))
-                        : selectedInfo['Plano']
-                        ? info['Entrega'][selectedInfo['Plano']].map(
-                              (choice, i) => (
-                                  <Choice key={i}>
-                                      <WhiteBox
-                                          $selected={selected[i]}
-                                          onClick={(e) => checkBox(e, i)}
-                                      />
-                                      <span>{choice}</span>
-                                  </Choice>
-                              )
-                          )
-                        : ''}
+                    {choices[name].map((choice, i) => (
+                        <Choice key={i}>
+                            <WhiteBox
+                                $selected={selected[i]}
+                                onClick={(e) => checkBox(e, i)}
+                            />
+                            <span>{choice}</span>
+                        </Choice>
+                    ))}
                 </Choices>
             ) : (
                 ''

@@ -63,6 +63,10 @@ button {
 	color: white;
 	border: none;
 }
+
+input  {
+	font-family: 'Roboto', sans-serif;
+}
 `;
 
 export default GlobalStyle;
