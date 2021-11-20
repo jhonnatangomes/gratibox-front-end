@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import weeklyPlanImage from '../../../assets/image04.jpg';
 import monthlyPlanImage from '../../../assets/image02.jpg';
 import PlanDetails from './PlanDetails';
+import { useContext } from 'react';
+import UserContext from '../../../contexts/UserContext';
 
 const plans = [
     {
@@ -18,7 +20,8 @@ const plans = [
     },
 ];
 
-export default function Plans({ user }) {
+export default function Plans() {
+    const { user } = useContext(UserContext);
     return (
         <PageContainer>
             <Title>Bom te ver por aqui, {user.name}</Title>

@@ -4,8 +4,10 @@ import InfoPlan from './InfoPlan';
 import InfoAdress from './InfoAdress';
 
 export default function DeliveryInfo({
-    selectedInfo,
-    setSelectedInfo,
+    selectedPlanInfo,
+    setSelectedPlanInfo,
+    selectedAdressInfo,
+    setSelectedAdressInfo,
     renderAdress,
 }) {
     const info = {
@@ -27,16 +29,16 @@ export default function DeliveryInfo({
                           name={name}
                           choices={planInfo}
                           setChoices={setPlanInfo}
-                          selectedInfo={selectedInfo}
-                          setSelectedInfo={setSelectedInfo}
+                          selectedInfo={selectedPlanInfo}
+                          setSelectedInfo={setSelectedPlanInfo}
                       />
                   ))
                 : info.adress.map((name, i) => (
                       <InfoAdress
                           key={i}
                           name={name}
-                          selectedInfo={selectedInfo}
-                          setSelectedInfo={setSelectedInfo}
+                          selectedInfo={selectedAdressInfo}
+                          setSelectedInfo={setSelectedAdressInfo}
                       />
                   ))}
         </DeliveryInfoContainer>

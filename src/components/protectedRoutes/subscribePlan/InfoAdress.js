@@ -42,18 +42,77 @@ export default function InfoAdress({ name, selectedInfo, setSelectedInfo }) {
     return (
         <AdressContainer>
             {name !== 'Cidade' ? (
-                <InfoInput placeholder={name} />
+                <InfoInput
+                    placeholder={name}
+                    value={selectedInfo[name]}
+                    onChange={(e) =>
+                        setSelectedInfo({
+                            ...selectedInfo,
+                            [name]: e.target.value,
+                        })
+                    }
+                />
             ) : (
                 <CityAndState>
-                    <City placeholder="Cidade" />
+                    <City
+                        placeholder="Cidade"
+                        onChange={(e) =>
+                            setSelectedInfo({
+                                ...selectedInfo,
+                                Cidade: e.target.value,
+                            })
+                        }
+                    />
                     <State onClick={handleClick} $isOpen={isOpen}>
-                        <input placeholder="Estado" />
+                        <input
+                            placeholder="Estado"
+                            value={selectedInfo['Estado']}
+                            onChange={(e) =>
+                                setSelectedInfo({
+                                    ...selectedInfo,
+                                    Estado: e.target.value,
+                                })
+                            }
+                        />
                         <ArrowIcon $isOpen={isOpen} color="#4D65A8" />
                         <StatesChoice>
-                            {isOpen
+                            {isOpen && !selectedInfo['Estado']
                                 ? states.map((state, i) => (
-                                      <span key={i}>{state}</span>
+                                      <span
+                                          key={i}
+                                          onClick={() =>
+                                              setSelectedInfo({
+                                                  ...selectedInfo,
+                                                  Estado: state,
+                                              })
+                                          }
+                                      >
+                                          {state}
+                                      </span>
                                   ))
+                                : ''}
+                            {selectedInfo['Estado'].length === 1
+                                ? states
+                                      .filter(
+                                          (el) =>
+                                              el[0] ===
+                                              selectedInfo[
+                                                  'Estado'
+                                              ].toUpperCase()
+                                      )
+                                      .map((state, i) => (
+                                          <span
+                                              key={i}
+                                              onClick={() =>
+                                                  setSelectedInfo({
+                                                      ...selectedInfo,
+                                                      Estado: state,
+                                                  })
+                                              }
+                                          >
+                                              {state}
+                                          </span>
+                                      ))
                                 : ''}
                         </StatesChoice>
                     </State>
@@ -100,6 +159,8 @@ const City = styled.input`
 const State = styled.div`
     width: 108px;
     position: relative;
+    max-height: 120px;
+    overflow: auto;
 
     input {
         width: 100%;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { HiArrowDown } from 'react-icons/hi';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
 
 export default function InfoPlan({
     name,
@@ -9,12 +10,30 @@ export default function InfoPlan({
     selectedInfo,
     setSelectedInfo,
 }) {
+    const { state } = useLocation();
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState([false, false, false]);
     const deliveries = {
         Semanal: ['Segunda', 'Quarta', 'Sexta'],
         Mensal: ['Dia 01', 'Dia 10', 'Dia 20'],
     };
+
+    useEffect(() => {
+        if (state === 'weekly' && name === 'Plano') {
+            setSelected([true, false]);
+            setChoices({
+                ...choices,
+                Entrega: deliveries[choices[name][0]],
+            });
+        }
+        if (state === 'monthly' && name === 'Plano') {
+            setSelected([false, true]);
+            setChoices({
+                ...choices,
+                Entrega: deliveries[choices[name][1]],
+            });
+        }
+    }, []);
 
     function handleClick() {
         setIsOpen(!isOpen);

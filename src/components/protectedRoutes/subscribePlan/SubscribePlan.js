@@ -2,31 +2,52 @@ import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import formImage from '../../../assets/image03.jpg';
 import DeliveryInfo from './DeliveryInfo';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { sendPlan } from '../../../services/api';
+import UserContext from '../../../contexts/UserContext';
 
-export default function SubscribePlan({ user }) {
-    const { state } = useLocation();
+export default function SubscribePlan() {
+    const { user } = useContext(UserContext);
     const [renderAdress, setRenderAdress] = useState(false);
-    const [selectedInfo, setSelectedInfo] = useState({
+    const [selectedPlanInfo, setSelectedPlanInfo] = useState({
         Plano: '',
         Entrega: '',
         Produtos: '',
-        Endereço: {
-            'Nome completo': '',
-            'Endereço de entrega': '',
-            CEP: '',
-            Cidade: '',
-            Estado: '',
-        },
+    });
+    const [selectedAdressInfo, setSelectedAdressInfo] = useState({
+        'Nome completo': '',
+        'Endereço de entrega': '',
+        CEP: '',
+        Cidade: '',
+        Estado: '',
     });
 
-    function handleClick() {
-        if (
-            selectedInfo['Plano'] &&
-            selectedInfo['Entrega'] &&
-            selectedInfo['Produtos']
-        ) {
+    function next() {
+        if (!Object.values(selectedPlanInfo).includes('')) {
             setRenderAdress(true);
+        }
+    }
+
+    function finish() {
+        if (!Object.values(selectedAdressInfo).includes('')) {
+            const body = {
+                planType: selectedPlanInfo['Plano'],
+                deliveryDate: selectedPlanInfo['Entrega'],
+                products: selectedPlanInfo['Produtos'],
+                deliveryInfo: {
+                    name: selectedAdressInfo['Nome completo'],
+                    adress: selectedAdressInfo['Endereço de entrega'],
+                    zipcode: selectedAdressInfo['CEP'],
+                    city: selectedAdressInfo['Cidade'],
+                    state: selectedAdressInfo['Estado'],
+                },
+            };
+            const promise = sendPlan(user.token, body);
+            promise
+                .then(() => {
+                    alert('Plano registrado com sucesso');
+                })
+                .catch((err) => console.log(err.response));
         }
     }
 
@@ -42,12 +63,18 @@ export default function SubscribePlan({ user }) {
                     alt="Pessoa meditando com camisa amarela em fundo branco"
                 />
                 <DeliveryInfo
-                    selectedInfo={selectedInfo}
-                    setSelectedInfo={setSelectedInfo}
+                    selectedPlanInfo={selectedPlanInfo}
+                    setSelectedPlanInfo={setSelectedPlanInfo}
+                    selectedAdressInfo={selectedAdressInfo}
+                    setSelectedAdressInfo={setSelectedAdressInfo}
                     renderAdress={renderAdress}
                 />
             </FormContainer>
-            <Next onClick={handleClick}>Próximo</Next>
+            {renderAdress ? (
+                <Button onClick={finish}>Finalizar</Button>
+            ) : (
+                <Button onClick={next}>Próximo</Button>
+            )}
         </PageContainer>
     );
 }
@@ -90,7 +117,7 @@ const FormContainer = styled.div`
     }
 `;
 
-const Next = styled.button`
+const Button = styled.button`
     width: 202px;
     height: 39px;
     background-color: #8c97ea;
