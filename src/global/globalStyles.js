@@ -60,7 +60,12 @@ a {
 }
 button {
 	font-family: 'Roboto', sans-serif;
+	color: white;
 	border: none;
+}
+
+input  {
+	font-family: 'Roboto', sans-serif;
 }
 `;
 
