@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import Info from './Info';
+import InfoPlan from './InfoPlan';
+import InfoAdress from './InfoAdress';
 
-export default function DeliveryInfo() {
-    const [isFirstFilled, setIsFirstFilled] = useState(false);
-    const [selectedFirstInfo, setSelectedFirstInfo] = useState({
-        Plano: '',
-        Entrega: '',
-        Produtos: '',
-    });
-    const [selectedSecondInfo, setSelectedSecondInfo] = useState({
+export default function DeliveryInfo({
+    selectedPlanInfo,
+    setSelectedPlanInfo,
+    renderAdress,
+}) {
+    const [selectedAdressInfo, setSelectedAdressInfo] = useState({
         'Nome completo': '',
         'Endereço de entrega': '',
         CEP: '',
@@ -20,23 +19,24 @@ export default function DeliveryInfo() {
         first: ['Plano', 'Entrega', 'Produtos'],
         second: ['Nome completo', 'Endereço de entrega', 'CEP', 'Cidade'],
     };
+
     return (
         <DeliveryInfoContainer>
-            {!isFirstFilled
+            {!renderAdress
                 ? info.first.map((name, i) => (
-                      <Info
+                      <InfoPlan
                           key={i}
                           name={name}
-                          selectedInfo={selectedFirstInfo}
-                          setSelectedInfo={setSelectedFirstInfo}
+                          selectedInfo={selectedPlanInfo}
+                          setSelectedInfo={setSelectedPlanInfo}
                       />
                   ))
                 : info.second.map((name, i) => (
-                      <Info
+                      <InfoAdress
                           key={i}
                           name={name}
-                          selectedInfo={selectedSecondInfo}
-                          setSelectedInfo={setSelectedSecondInfo}
+                          selectedInfo={selectedAdressInfo}
+                          setSelectedInfo={setSelectedAdressInfo}
                       />
                   ))}
         </DeliveryInfoContainer>

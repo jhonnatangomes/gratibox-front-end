@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { HiArrowDown } from 'react-icons/hi';
 import { useState } from 'react';
 
-export default function Info({ name, selectedInfo, setSelectedInfo }) {
+export default function InfoPlan({ name, selectedInfo, setSelectedInfo }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState([false, false, false]);
     const info = {

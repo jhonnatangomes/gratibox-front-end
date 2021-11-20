@@ -2,9 +2,27 @@ import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import formImage from '../../../assets/image03.jpg';
 import DeliveryInfo from './DeliveryInfo';
+import { useState } from 'react';
 
 export default function SubscribePlan({ user }) {
     const { state } = useLocation();
+    const [renderAdress, setRenderAdress] = useState(false);
+    const [selectedPlanInfo, setSelectedPlanInfo] = useState({
+        Plano: '',
+        Entrega: '',
+        Produtos: '',
+    });
+
+    function handleClick() {
+        if (
+            selectedPlanInfo['Plano'] &&
+            selectedPlanInfo['Entrega'] &&
+            selectedPlanInfo['Produtos']
+        ) {
+            setRenderAdress(true);
+        }
+    }
+
     return (
         <PageContainer>
             <Title>Bom te ver por aqui, {user.name}</Title>
@@ -16,9 +34,13 @@ export default function SubscribePlan({ user }) {
                     src={formImage}
                     alt="Pessoa meditando com camisa amarela em fundo branco"
                 />
-                <DeliveryInfo />
+                <DeliveryInfo
+                    selectedPlanInfo={selectedPlanInfo}
+                    setSelectedPlanInfo={setSelectedPlanInfo}
+                    renderAdress={renderAdress}
+                />
             </FormContainer>
-            <Next>Próximo</Next>
+            <Next onClick={handleClick}>Próximo</Next>
         </PageContainer>
     );
 }
