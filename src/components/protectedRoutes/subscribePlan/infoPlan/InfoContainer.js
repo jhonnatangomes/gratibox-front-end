@@ -1,74 +1,23 @@
 import styled from 'styled-components';
 import { HiArrowDown } from 'react-icons/hi';
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useState } from 'react';
 
-export default function InfoPlan({
-    name,
-    choices,
-    setChoices,
-    selectedInfo,
-    setSelectedInfo,
-}) {
-    const { state } = useLocation();
+export default function InfoContainer({ name, checkBox, choices, selected }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState([false, false, false]);
-    const deliveries = {
-        Semanal: ['Segunda', 'Quarta', 'Sexta'],
-        Mensal: ['Dia 01', 'Dia 10', 'Dia 20'],
-    };
-
-    useEffect(() => {
-        if (state === 'weekly' && name === 'Plano') {
-            setSelected([true, false]);
-            setChoices({
-                ...choices,
-                Entrega: deliveries[choices[name][0]],
-            });
-        }
-        if (state === 'monthly' && name === 'Plano') {
-            setSelected([false, true]);
-            setChoices({
-                ...choices,
-                Entrega: deliveries[choices[name][1]],
-            });
-        }
-    }, []);
 
     function handleClick() {
         setIsOpen(!isOpen);
     }
 
-    function checkBox(e, i) {
-        e.stopPropagation();
-        let newSelected = selected;
-        if (newSelected[i]) {
-            setSelectedInfo({ ...selectedInfo, [name]: '' });
-            newSelected[i] = false;
-        } else {
-            newSelected = [false, false, false];
-            if (name === 'Plano') {
-                setChoices({
-                    ...choices,
-                    Entrega: deliveries[choices[name][i]],
-                });
-            }
-            setSelectedInfo({ ...selectedInfo, [name]: choices[name][i] });
-            newSelected[i] = true;
-        }
-
-        setSelected([...newSelected]);
-    }
-
     return (
-        <InfoContainer onClick={handleClick}>
+        <Container onClick={handleClick}>
             <InfoTitle>
                 <span>{name}</span>
                 <ArrowIcon $isOpen={isOpen} color="#4D65A8" />
             </InfoTitle>
             {isOpen ? (
                 <Choices>
-                    {choices[name].map((choice, i) => (
+                    {choices.map((choice, i) => (
                         <Choice key={i}>
                             <WhiteBox
                                 $selected={selected[i]}
@@ -81,11 +30,11 @@ export default function InfoPlan({
             ) : (
                 ''
             )}
-        </InfoContainer>
+        </Container>
     );
 }
 
-const InfoContainer = styled.div`
+const Container = styled.div`
     width: 290px;
     min-height: 44px;
     background-color: rgba(224, 209, 237, 0.62);

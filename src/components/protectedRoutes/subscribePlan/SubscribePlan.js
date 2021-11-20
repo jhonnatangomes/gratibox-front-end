@@ -12,7 +12,7 @@ export default function SubscribePlan() {
     const [selectedPlanInfo, setSelectedPlanInfo] = useState({
         Plano: '',
         Entrega: '',
-        Produtos: '',
+        Produtos: [],
     });
     const [selectedAdressInfo, setSelectedAdressInfo] = useState({
         'Nome completo': '',
@@ -23,7 +23,11 @@ export default function SubscribePlan() {
     });
 
     function next() {
-        if (!Object.values(selectedPlanInfo).includes('')) {
+        if (
+            selectedPlanInfo['Plano'] &&
+            selectedPlanInfo['Entrega'] &&
+            selectedPlanInfo['Produtos'].length
+        ) {
             setRenderAdress(true);
         }
     }

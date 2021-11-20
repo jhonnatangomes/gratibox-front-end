@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import InfoPlan from './InfoPlan';
-import InfoAdress from './InfoAdress';
+import InfoAdress from './infoAdress/InfoAdress';
+import Plan from './infoPlan/Plan';
+import Delivery from './infoPlan/Delivery';
+import Products from './infoPlan/Products';
 
 export default function DeliveryInfo({
     selectedPlanInfo,
@@ -10,37 +12,35 @@ export default function DeliveryInfo({
     setSelectedAdressInfo,
     renderAdress,
 }) {
-    const info = {
-        plan: ['Plano', 'Entrega', 'Produtos'],
-        adress: ['Nome completo', 'Endereço de entrega', 'CEP', 'Cidade'],
-    };
-    const [planInfo, setPlanInfo] = useState({
-        Plano: ['Semanal', 'Mensal'],
-        Entrega: [],
-        Produtos: ['Chás', 'Incensos', 'Produtos Orgânicos'],
-    });
+    const adress = ['Nome completo', 'Endereço de entrega', 'CEP', 'Cidade'];
 
     return (
         <DeliveryInfoContainer>
-            {!renderAdress
-                ? info.plan.map((name, i) => (
-                      <InfoPlan
-                          key={i}
-                          name={name}
-                          choices={planInfo}
-                          setChoices={setPlanInfo}
-                          selectedInfo={selectedPlanInfo}
-                          setSelectedInfo={setSelectedPlanInfo}
-                      />
-                  ))
-                : info.adress.map((name, i) => (
-                      <InfoAdress
-                          key={i}
-                          name={name}
-                          selectedInfo={selectedAdressInfo}
-                          setSelectedInfo={setSelectedAdressInfo}
-                      />
-                  ))}
+            {!renderAdress ? (
+                <>
+                    <Plan
+                        selectedInfo={selectedPlanInfo}
+                        setSelectedInfo={setSelectedPlanInfo}
+                    />
+                    <Delivery
+                        selectedInfo={selectedPlanInfo}
+                        setSelectedInfo={setSelectedPlanInfo}
+                    />
+                    <Products
+                        selectedInfo={selectedPlanInfo}
+                        setSelectedInfo={setSelectedPlanInfo}
+                    />
+                </>
+            ) : (
+                adress.map((name, i) => (
+                    <InfoAdress
+                        key={i}
+                        name={name}
+                        selectedInfo={selectedAdressInfo}
+                        setSelectedInfo={setSelectedAdressInfo}
+                    />
+                ))
+            )}
         </DeliveryInfoContainer>
     );
 }
