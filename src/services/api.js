@@ -21,4 +21,12 @@ function tokenAuth(token) {
     return axios.post(`${baseUrl}/token`, {}, headersConfig(token));
 }
 
-export { signUp, login, tokenAuth };
+function getPlans(token) {
+    return axios.get(`${baseUrl}/plans/info`, headersConfig(token));
+}
+
+function getDates(token, planType) {
+    return axios.get(`${baseUrl}/plans/${planType}/info`, headersConfig(token));
+}
+
+export { signUp, login, tokenAuth, getPlans, getDates };

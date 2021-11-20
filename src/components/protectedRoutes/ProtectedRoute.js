@@ -1,16 +1,15 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { tokenAuth } from '../../services/api';
-import UserContext from '../../contexts/UserContext';
 import { useNavigate } from 'react-router';
 
 export default function ProtectedRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) {
-            const promise = tokenAuth(user.token);
+        const userLocalStorage = localStorage.getItem('gratibox-user');
+        if (userLocalStorage) {
+            const promise = tokenAuth(JSON.parse(userLocalStorage).token);
             promise
                 .then(() => setIsAuthenticated(true))
                 .catch(() => {
