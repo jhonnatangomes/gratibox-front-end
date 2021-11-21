@@ -13,7 +13,7 @@ export default function ProtectedRoute({ children }) {
             promise
                 .then(() => setIsAuthenticated(true))
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err.response);
                     alert('Você não está logado');
                     navigate('/login');
                 });
