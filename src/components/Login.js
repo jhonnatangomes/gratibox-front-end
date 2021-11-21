@@ -54,7 +54,7 @@ export default function Login() {
                         JSON.stringify(res.data)
                     );
                     setLoading(false);
-                    navigate('/planos');
+                    navigate('/');
                 })
                 .catch((err) => {
                     if (err.response.status === 401) {
