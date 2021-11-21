@@ -4,9 +4,11 @@ import DeliveryInfo from './DeliveryInfo';
 import { useContext, useState } from 'react';
 import { sendPlan } from '../../../services/api';
 import UserContext from '../../../contexts/UserContext';
+import { useNavigate } from 'react-router';
 
 export default function SubscribePlan() {
     const { user } = useContext(UserContext);
+    const navigate = useNavigate();
     const [renderAdress, setRenderAdress] = useState(false);
     const [selectedPlanInfo, setSelectedPlanInfo] = useState({
         Plano: '',
@@ -49,6 +51,7 @@ export default function SubscribePlan() {
             promise
                 .then(() => {
                     alert('Plano registrado com sucesso');
+                    navigate('/detalhes-plano');
                 })
                 .catch((err) => console.log(err.response));
         }

@@ -1,27 +1,23 @@
 import { useEffect } from 'react';
-import { getPlan } from '../services/api';
 import { useNavigate } from 'react-router';
 import WelcomePage from './WelcomePage';
 
-export default function FirstScreen() {
+export default function FirstScreen({ isThereAPlan }) {
     const navigate = useNavigate();
 
     useEffect(() => {
         const userLocalStorage = localStorage.getItem('gratibox-user');
         if (userLocalStorage) {
-            const promise = getPlan(JSON.parse(userLocalStorage).token);
-            promise.then((res) => {
-                if (res.status === 200) {
-                    navigate('/detalhes-plano');
-                }
-                if (res.status === 204) {
-                    navigate('/planos');
-                }
-            });
+            if (isThereAPlan === true) {
+                navigate('/detalhes-plano');
+            }
+            if (isThereAPlan === false) {
+                navigate('/planos');
+            }
         } else {
             return <WelcomePage />;
         }
-    }, []);
+    }, [isThereAPlan]);
 
     return null;
 }

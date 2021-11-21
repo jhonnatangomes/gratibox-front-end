@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 import { Ellipsis } from 'react-spinners-css';
 
-export default function Login() {
+export default function Login({ isThereAPlan }) {
     const location = useLocation();
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -54,7 +54,11 @@ export default function Login() {
                         JSON.stringify(res.data)
                     );
                     setLoading(false);
-                    navigate('/planos');
+                    if (isThereAPlan) {
+                        navigate('/detalhes-plano');
+                    } else {
+                        navigate('/planos');
+                    }
                 })
                 .catch((err) => {
                     if (err.response.status === 401) {
