@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import formImage from '../../../assets/image03.jpg';
 import DeliveryInfo from './DeliveryInfo';

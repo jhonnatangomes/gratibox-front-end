@@ -25,4 +25,8 @@ function sendPlan(token, body) {
     return axios.post(`${baseUrl}/plans`, body, headersConfig(token));
 }
 
-export { signUp, login, tokenAuth, sendPlan };
+function getPlan(token) {
+    return axios.get(`${baseUrl}/plans`, headersConfig(token));
+}
+
+export { signUp, login, tokenAuth, sendPlan, getPlan };
