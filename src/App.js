@@ -31,7 +31,7 @@ export default function App() {
                         path="/planos"
                         element={
                             <ProtectedRoute>
-                                <Plans />
+                                <Redirect />
                             </ProtectedRoute>
                         }
                     />
@@ -39,7 +39,7 @@ export default function App() {
                         path="/assinar-plano"
                         element={
                             <ProtectedRoute>
-                                <SubscribePlan />
+                                <Redirect />
                             </ProtectedRoute>
                         }
                     />

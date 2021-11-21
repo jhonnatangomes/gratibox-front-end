@@ -13,10 +13,10 @@ export default function SubscriptionDetails() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('plano') === 'false') {
-            navigate('/planos');
-            return null;
-        }
+        // if (localStorage.getItem('plano') === 'false') {
+        //     navigate('/planos');
+        //     return null;
+        // }
         const promise = getPlan(user.token);
         promise.then((res) => setPlanInfo(res.data));
     }, []);

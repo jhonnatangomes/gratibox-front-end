@@ -26,11 +26,11 @@ export default function Plans() {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (localStorage.getItem('plano') === 'true') {
-            navigate('/detalhes-plano');
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (localStorage.getItem('plano') === 'true') {
+    //         navigate('/detalhes-plano');
+    //     }
+    // }, []);
 
     return (
         <PageContainer>
