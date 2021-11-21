@@ -5,9 +5,9 @@ import { getPlan } from '../services/api';
 
 export default function Redirect() {
     const navigate = useNavigate();
+    const userLocalStorage = localStorage.getItem('gratibox-user');
 
     useEffect(() => {
-        const userLocalStorage = localStorage.getItem('gratibox-user');
         if (userLocalStorage) {
             const promise = getPlan(JSON.parse(userLocalStorage).token);
             promise.then((res) => {
@@ -20,10 +20,9 @@ export default function Redirect() {
                     localStorage.setItem('plano', false);
                 }
             });
-        } else {
-            return <WelcomePage />;
         }
     }, []);
 
+    if (!userLocalStorage) return <WelcomePage />;
     return null;
 }
