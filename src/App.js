@@ -7,26 +7,15 @@ import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
 import Plans from './components/protectedRoutes/plans/Plans';
 import SubscribePlan from './components/protectedRoutes/subscribePlan/SubscribePlan';
 import SubscriptionDetails from './components/protectedRoutes/subscriptionDetails/SubscriptionDetails';
-import FirstScreen from './components/FirstScreen';
-import { getPlan } from './services/api';
+import Redirect from './components/Redirect';
 
 export default function App() {
     const [user, setUser] = useState(null);
-    const [isThereAPlan, setIsThereAPlan] = useState(null);
 
     useEffect(() => {
         const userLocalStorage = localStorage.getItem('gratibox-user');
         if (userLocalStorage) {
             setUser(JSON.parse(userLocalStorage));
-            const promise = getPlan(JSON.parse(userLocalStorage).token);
-            promise.then((res) => {
-                if (res.status === 200) {
-                    setIsThereAPlan(true);
-                }
-                if (res.status === 204) {
-                    setIsThereAPlan(false);
-                }
-            });
         }
     }, []);
 
@@ -35,14 +24,8 @@ export default function App() {
             <UserContext.Provider value={{ user, setUser }}>
                 <GlobalStyle />
                 <Routes>
-                    <Route
-                        path="/"
-                        element={<FirstScreen isThereAPlan={isThereAPlan} />}
-                    />
-                    <Route
-                        path="/login"
-                        element={<Login isThereAPlan={isThereAPlan} />}
-                    />
+                    <Route path="/" element={<Redirect />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/cadastro" element={<Login />} />
                     <Route
                         path="/planos"

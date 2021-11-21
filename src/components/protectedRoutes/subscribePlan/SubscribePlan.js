@@ -51,6 +51,7 @@ export default function SubscribePlan() {
             promise
                 .then(() => {
                     alert('Plano registrado com sucesso');
+                    localStorage.setItem('plano', true);
                     navigate('/detalhes-plano');
                 })
                 .catch((err) => console.log(err.response));
