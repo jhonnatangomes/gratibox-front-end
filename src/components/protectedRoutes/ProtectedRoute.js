@@ -12,7 +12,8 @@ export default function ProtectedRoute({ children }) {
             const promise = tokenAuth(JSON.parse(userLocalStorage).token);
             promise
                 .then(() => setIsAuthenticated(true))
-                .catch(() => {
+                .catch((err) => {
+                    console.log(err);
                     alert('Você não está logado');
                     navigate('/login');
                 });
