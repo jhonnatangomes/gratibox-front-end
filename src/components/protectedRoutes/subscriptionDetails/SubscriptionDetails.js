@@ -5,13 +5,14 @@ import detailsImg from '../../../assets/image03.jpg';
 import { getPlan } from '../../../services/api';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useNavigate } from 'react-router';
+dayjs.extend(utc);
 
 export default function SubscriptionDetails() {
     const { user } = useContext(UserContext);
     const [planInfo, setPlanInfo] = useState(null);
     const navigate = useNavigate();
-    console.log(planInfo);
 
     useEffect(() => {
         if (localStorage.getItem('plano') === 'false') {
@@ -43,9 +44,9 @@ export default function SubscriptionDetails() {
                             <Detail>
                                 <span>Data da assinatura: </span>
                                 <span>
-                                    {dayjs(planInfo.subscriptionDate).format(
-                                        'DD/MM/YYYY'
-                                    )}
+                                    {dayjs(planInfo.subscriptionDate)
+                                        .utc()
+                                        .format('DD/MM/YYYY')}
                                 </span>
                             </Detail>
                             <Detail>
