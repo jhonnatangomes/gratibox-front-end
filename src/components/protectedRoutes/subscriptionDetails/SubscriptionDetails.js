@@ -3,7 +3,7 @@ import UserContext from '../../../contexts/UserContext';
 import styled from 'styled-components';
 import detailsImg from '../../../assets/image03.jpg';
 import { getPlan } from '../../../services/api';
-import { useEffect, useState } from 'react/cjs/react.development';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
 

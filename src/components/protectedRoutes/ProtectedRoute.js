@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { tokenAuth } from '../../services/api';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProtectedRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);

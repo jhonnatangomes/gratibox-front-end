@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import WelcomePage from './WelcomePage';
 import { getPlan } from '../services/api';
 
