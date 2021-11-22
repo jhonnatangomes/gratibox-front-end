@@ -48,7 +48,9 @@ export default function NegativeReview() {
             const promise = postReview(user.token, body);
             promise.then(() => {
                 alert('Avaliação enviada com sucesso');
-                navigate('/detalhes-plano/avaliar');
+                navigate('/detalhes-plano/avaliar', {
+                    state: { from: '/detalhes-plano/avaliar/comentarios' },
+                });
             });
         }
     }

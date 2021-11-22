@@ -16,7 +16,11 @@ export default function Review() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!state || state.from !== '/detalhes-plano') {
+        if (
+            !state ||
+            (state.from !== '/detalhes-plano' &&
+                state.from !== '/detalhes-plano/avaliar/comentarios')
+        ) {
             navigate('/planos');
             return null;
         }
