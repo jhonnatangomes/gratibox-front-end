@@ -11,6 +11,7 @@ export default function SubscriptionDetails() {
     const { user } = useContext(UserContext);
     const [planInfo, setPlanInfo] = useState(null);
     const navigate = useNavigate();
+    console.log(planInfo);
 
     useEffect(() => {
         if (localStorage.getItem('plano') === 'false') {
