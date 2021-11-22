@@ -8,6 +8,7 @@ import Plans from './components/protectedRoutes/plans/Plans';
 import SubscribePlan from './components/protectedRoutes/subscribePlan/SubscribePlan';
 import SubscriptionDetails from './components/protectedRoutes/subscriptionDetails/SubscriptionDetails';
 import Redirect from './components/Redirect';
+import Review from './components/protectedRoutes/deliveryReview/Review';
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -48,6 +49,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <SubscriptionDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/detalhes-plano/avaliar"
+                        element={
+                            <ProtectedRoute>
+                                <Review />
                             </ProtectedRoute>
                         }
                     />
