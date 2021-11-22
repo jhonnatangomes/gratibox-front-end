@@ -4,6 +4,8 @@ import monthlyPlanImage from '../../../assets/image02.jpg';
 import PlanDetails from './PlanDetails';
 import { useContext } from 'react';
 import UserContext from '../../../contexts/UserContext';
+import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
 
 const plans = [
     {
@@ -22,6 +24,13 @@ const plans = [
 
 export default function Plans() {
     const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem('plano') === 'true') {
+            navigate('/detalhes-plano');
+        }
+    }, []);
 
     return (
         <PageContainer>
