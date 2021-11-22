@@ -5,12 +5,18 @@ import detailsImg from '../../../assets/image03.jpg';
 import { getPlan } from '../../../services/api';
 import { useEffect, useState } from 'react/cjs/react.development';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router';
 
 export default function SubscriptionDetails() {
     const { user } = useContext(UserContext);
     const [planInfo, setPlanInfo] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (localStorage.getItem('plano') === 'false') {
+            navigate('/planos');
+            return null;
+        }
         const promise = getPlan(user.token);
         promise.then((res) => setPlanInfo(res.data));
     }, []);
