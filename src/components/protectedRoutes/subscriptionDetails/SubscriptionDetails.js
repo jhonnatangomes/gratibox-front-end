@@ -23,6 +23,12 @@ export default function SubscriptionDetails() {
         promise.then((res) => setPlanInfo(res.data));
     }, []);
 
+    function evaluate() {
+        navigate('/detalhes-plano/avaliar', {
+            state: { from: '/detalhes-plano' },
+        });
+    }
+
     return (
         <PageContainer>
             <Title>Bom te ver por aqui, {user.name}</Title>
@@ -68,7 +74,7 @@ export default function SubscriptionDetails() {
                     ''
                 )}
             </InfoContainer>
-            <Evaluate>Avaliar entregas</Evaluate>
+            <Evaluate onClick={evaluate}>Avaliar entregas</Evaluate>
         </PageContainer>
     );
 }
