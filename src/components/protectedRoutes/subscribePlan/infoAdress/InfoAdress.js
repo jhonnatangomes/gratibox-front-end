@@ -1,17 +1,22 @@
 import styled from 'styled-components';
 import CityAndState from './CityAndState';
 
-export default function InfoAdress({ name, selectedInfo, setSelectedInfo }) {
+export default function InfoAdress({
+    placeholder,
+    objectProperty,
+    selectedInfo,
+    setSelectedInfo,
+}) {
     return (
         <AdressContainer>
-            {name !== 'Cidade' ? (
+            {placeholder !== 'Cidade' ? (
                 <InfoInput
-                    placeholder={name}
-                    value={selectedInfo[name]}
+                    placeholder={placeholder}
+                    value={selectedInfo[objectProperty]}
                     onChange={(e) =>
                         setSelectedInfo({
                             ...selectedInfo,
-                            [name]: e.target.value,
+                            [objectProperty]: e.target.value,
                         })
                     }
                 />

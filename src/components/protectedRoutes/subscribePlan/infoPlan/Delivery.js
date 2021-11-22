@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import InfoContainer from './InfoContainer';
 
 export default function Delivery({ selectedInfo, setSelectedInfo }) {
-    const plan = selectedInfo['Plano'];
+    const plan = selectedInfo.planType;
     const [choices, setChoices] = useState([]);
     const [selected, setSelected] = useState([false, false, false]);
 
@@ -22,11 +22,11 @@ export default function Delivery({ selectedInfo, setSelectedInfo }) {
         let newSelected = selected;
         if (newSelected[i]) {
             newSelected[i] = false;
-            setSelectedInfo({ ...selectedInfo, Entrega: '' });
+            setSelectedInfo({ ...selectedInfo, deliveryDate: '' });
         } else {
             newSelected = [false, false];
             newSelected[i] = true;
-            setSelectedInfo({ ...selectedInfo, Entrega: choices[i] });
+            setSelectedInfo({ ...selectedInfo, deliveryDate: choices[i] });
         }
         setSelected([...newSelected]);
     }
