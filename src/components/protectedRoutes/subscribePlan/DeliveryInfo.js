@@ -12,7 +12,12 @@ export default function DeliveryInfo({
     setSelectedAdressInfo,
     renderAdress,
 }) {
-    const adress = ['Nome completo', 'Endereço de entrega', 'CEP', 'Cidade'];
+    const adress = {
+        name: 'Nome completo',
+        adress: 'Endereço de entrega',
+        zipcode: 'CEP',
+        city: 'Cidade',
+    };
 
     return (
         <DeliveryInfoContainer>
@@ -32,10 +37,11 @@ export default function DeliveryInfo({
                     />
                 </>
             ) : (
-                adress.map((name, i) => (
+                Object.values(adress).map((placeholder, i) => (
                     <InfoAdress
                         key={i}
-                        name={name}
+                        placeholder={placeholder}
+                        objectProperty={Object.keys(adress)[i]}
                         selectedInfo={selectedAdressInfo}
                         setSelectedInfo={setSelectedAdressInfo}
                     />

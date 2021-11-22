@@ -46,31 +46,31 @@ export default function CityAndState({ selectedInfo, setSelectedInfo }) {
                 onChange={(e) =>
                     setSelectedInfo({
                         ...selectedInfo,
-                        Cidade: e.target.value,
+                        city: e.target.value,
                     })
                 }
             />
             <State onClick={handleClick} $isOpen={isOpen}>
                 <input
                     placeholder="Estado"
-                    value={selectedInfo['Estado']}
+                    value={selectedInfo.state}
                     onChange={(e) =>
                         setSelectedInfo({
                             ...selectedInfo,
-                            Estado: e.target.value,
+                            state: e.target.value,
                         })
                     }
                 />
                 <ArrowIcon $isOpen={isOpen} color="#4D65A8" />
                 <StatesChoice>
-                    {isOpen && !selectedInfo['Estado']
+                    {isOpen && !selectedInfo.state
                         ? states.map((state, i) => (
                               <span
                                   key={i}
                                   onClick={() =>
                                       setSelectedInfo({
                                           ...selectedInfo,
-                                          Estado: state,
+                                          state: state,
                                       })
                                   }
                               >
@@ -78,12 +78,11 @@ export default function CityAndState({ selectedInfo, setSelectedInfo }) {
                               </span>
                           ))
                         : ''}
-                    {selectedInfo['Estado'].length === 1
+                    {selectedInfo.state.length === 1
                         ? states
                               .filter(
                                   (el) =>
-                                      el[0] ===
-                                      selectedInfo['Estado'].toUpperCase()
+                                      el[0] === selectedInfo.state.toUpperCase()
                               )
                               .map((state, i) => (
                                   <span
@@ -91,7 +90,7 @@ export default function CityAndState({ selectedInfo, setSelectedInfo }) {
                                       onClick={() =>
                                           setSelectedInfo({
                                               ...selectedInfo,
-                                              Estado: state,
+                                              state: state,
                                           })
                                       }
                                   >

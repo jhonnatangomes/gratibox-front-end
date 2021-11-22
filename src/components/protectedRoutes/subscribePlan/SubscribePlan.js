@@ -11,41 +11,36 @@ export default function SubscribePlan() {
     const navigate = useNavigate();
     const [renderAdress, setRenderAdress] = useState(false);
     const [selectedPlanInfo, setSelectedPlanInfo] = useState({
-        Plano: '',
-        Entrega: '',
-        Produtos: [],
+        planType: '',
+        deliveryDate: '',
+        products: [],
     });
     const [selectedAdressInfo, setSelectedAdressInfo] = useState({
-        'Nome completo': '',
-        'Endereço de entrega': '',
-        CEP: '',
-        Cidade: '',
-        Estado: '',
+        name: '',
+        adress: '',
+        zipcode: '',
+        city: '',
+        state: '',
     });
 
     function next() {
         if (
-            selectedPlanInfo['Plano'] &&
-            selectedPlanInfo['Entrega'] &&
-            selectedPlanInfo['Produtos'].length
+            selectedPlanInfo.planType &&
+            selectedPlanInfo.deliveryDate &&
+            selectedPlanInfo.products.length
         ) {
             setRenderAdress(true);
         }
     }
 
+    console.log(selectedPlanInfo);
+    console.log(selectedAdressInfo);
+
     function finish() {
         if (!Object.values(selectedAdressInfo).includes('')) {
             const body = {
-                planType: selectedPlanInfo['Plano'],
-                deliveryDate: selectedPlanInfo['Entrega'],
-                products: selectedPlanInfo['Produtos'],
-                deliveryInfo: {
-                    name: selectedAdressInfo['Nome completo'],
-                    adress: selectedAdressInfo['Endereço de entrega'],
-                    zipcode: selectedAdressInfo['CEP'],
-                    city: selectedAdressInfo['Cidade'],
-                    state: selectedAdressInfo['Estado'],
-                },
+                ...selectedPlanInfo,
+                deliveryInfo: { ...selectedAdressInfo },
             };
             const promise = sendPlan(user.token, body);
             promise

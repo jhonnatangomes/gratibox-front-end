@@ -10,14 +10,14 @@ export default function Products({ selectedInfo, setSelectedInfo }) {
         let newSelected = selected;
         if (newSelected[i]) {
             newSelected[i] = false;
-            let newInfo = selectedInfo['Produtos'];
+            let newInfo = selectedInfo.products;
             newInfo = newInfo.filter((product) => product !== choices[i]);
-            setSelectedInfo({ ...selectedInfo, Produtos: newInfo });
+            setSelectedInfo({ ...selectedInfo, products: newInfo });
         } else {
             newSelected[i] = true;
-            const newInfo = selectedInfo['Produtos'];
+            const newInfo = selectedInfo.products;
             newInfo.push(choices[i]);
-            setSelectedInfo({ ...selectedInfo, Produtos: newInfo });
+            setSelectedInfo({ ...selectedInfo, products: newInfo });
         }
         setSelected([...newSelected]);
     }
