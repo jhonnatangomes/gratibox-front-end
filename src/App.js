@@ -9,6 +9,7 @@ import SubscribePlan from './components/protectedRoutes/subscribePlan/SubscribeP
 import SubscriptionDetails from './components/protectedRoutes/subscriptionDetails/SubscriptionDetails';
 import Redirect from './components/Redirect';
 import Review from './components/protectedRoutes/deliveryReview/Review';
+import NegativeReview from './components/protectedRoutes/deliveryReview/NegativeReview';
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -57,6 +58,14 @@ export default function App() {
                         element={
                             <ProtectedRoute>
                                 <Review />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/detalhes-plano/avaliar/comentarios"
+                        element={
+                            <ProtectedRoute>
+                                <NegativeReview />
                             </ProtectedRoute>
                         }
                     />

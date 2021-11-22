@@ -1,7 +1,60 @@
 import styled from 'styled-components';
 import reviewImage from '../../../assets/image01.jpg';
+import { getDeliveries, postReview } from '../../../services/api';
+import { useEffect, useState } from 'react';
+import { useContext } from 'react/cjs/react.development';
+import UserContext from '../../../contexts/UserContext';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import { useLocation, useNavigate } from 'react-router';
+dayjs.extend(utc);
 
 export default function Review() {
+    const [deliveries, setDeliveries] = useState(null);
+    const { state } = useLocation();
+    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!state || state.from !== '/detalhes-plano') {
+            navigate('/planos');
+            return null;
+        }
+        const promise = getDeliveries(user.token);
+        promise.then((res) => {
+            setDeliveries(res.data);
+        });
+    }, []);
+
+    function review(type, i, date) {
+        if (deliveries[i].review === null) {
+            if (type === 'up') {
+                const newDeliveries = deliveries;
+                newDeliveries[i].review = true;
+                const body = {
+                    date,
+                    review: true,
+                    complaint: null,
+                    comments: null,
+                };
+                const promise = postReview(user.token, body);
+                promise.then(() => {
+                    setDeliveries([...newDeliveries]);
+                });
+            }
+            if (type === 'down') {
+                navigate('/detalhes-plano/avaliar/comentarios', {
+                    state: {
+                        date,
+                        from: '/detalhes-plano/avaliar',
+                    },
+                });
+            }
+        } else {
+            alert('Você já avaliou essa entrega.');
+        }
+    }
+
     return (
         <PageContainer>
             <div>
@@ -16,27 +69,34 @@ export default function Review() {
                     src={reviewImage}
                     alt="Pessoa com camisa verde meditando"
                 />
-                <Box>
-                    <span>Box: dd/mm/aaaa</span>
-                    <ReviewsContainer>
-                        <ReviewBox>🙏</ReviewBox>
-                        <ReviewBox>👎</ReviewBox>
-                    </ReviewsContainer>
-                </Box>
-                <Box>
-                    <span>Box: dd/mm/aaaa</span>
-                    <ReviewsContainer>
-                        <ReviewBox>🙏</ReviewBox>
-                        <ReviewBox>👎</ReviewBox>
-                    </ReviewsContainer>
-                </Box>
-                <Box>
-                    <span>Box: dd/mm/aaaa</span>
-                    <ReviewsContainer>
-                        <ReviewBox>🙏</ReviewBox>
-                        <ReviewBox>👎</ReviewBox>
-                    </ReviewsContainer>
-                </Box>
+                {deliveries
+                    ? deliveries.map((delivery, i) => (
+                          <Box key={delivery.id}>
+                              <span>
+                                  Box:{' '}
+                                  {dayjs(delivery.date)
+                                      .utc()
+                                      .format('DD/MM/YYYY')}
+                              </span>
+                              <ReviewsContainer $selected={delivery.review}>
+                                  <ReviewBox
+                                      onClick={() =>
+                                          review('up', i, delivery.date)
+                                      }
+                                  >
+                                      🙏
+                                  </ReviewBox>
+                                  <ReviewBox
+                                      onClick={() =>
+                                          review('down', i, delivery.date)
+                                      }
+                                  >
+                                      👎
+                                  </ReviewBox>
+                              </ReviewsContainer>
+                          </Box>
+                      ))
+                    : ''}
             </InfoContainer>
         </PageContainer>
     );
@@ -101,17 +161,21 @@ const ReviewsContainer = styled.div`
     display: flex;
     div:first-child {
         margin-right: 12px;
+        background-color: ${({ $selected }) =>
+            $selected === true ? '#c70452' : '#e0d1ed'};
+    }
+    div:last-child {
+        background-color: ${({ $selected }) =>
+            $selected === false ? '#c70452' : '#e0d1ed'};
     }
 `;
 
 const ReviewBox = styled.div`
     width: 52px;
     height: 45px;
-    background-color: #e0d1ed;
     border-radius: 5px;
     font-size: 24px;
     line-height: 28.13px;
-    font-weight: 400;
     display: flex;
     justify-content: center;
     align-items: center;
