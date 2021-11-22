@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import reviewImage from '../../../assets/image01.jpg';
 import { getDeliveries, postReview } from '../../../services/api';
-import { useEffect, useState } from 'react';
-import { useContext } from 'react/cjs/react.development';
+import { useEffect, useState, useContext } from 'react';
 import UserContext from '../../../contexts/UserContext';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
