@@ -33,9 +33,6 @@ export default function SubscribePlan() {
         }
     }
 
-    console.log(selectedPlanInfo);
-    console.log(selectedAdressInfo);
-
     function finish() {
         if (!Object.values(selectedAdressInfo).includes('')) {
             const body = {
